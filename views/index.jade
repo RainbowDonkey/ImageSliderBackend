@@ -1,20 +1,43 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  - if (messages.info)
-    .message.info
-      span= messages.info
-  div
-      form(action='/items',method='post')
-        div(data-role='fieldcontain')
-          fieldset(data-role='controlgroup')
-            label(for='title') Title
-              input(id='title',type='text',value='',placeholder='Sea',name='title')
-        div#imagediv(data-role='fieldcontain')
-          fieldset(data-role='controlgroup')
-            label(for='url') Image url
-              input(id='url',type='url',value='',placeholder='https://google/image.jpg',name='url')
-        div(data-role='fieldcontain')   
-          input(type='submit',value='Add item',data-transition='fade', data-theme='c')
+  div.main-outer-container
+    div.main-inner-container
+      div.form-wrapper
+        form.form(action='/items',method='post')
+          h1.title= title
+          p.field Welcome to #{title}
+          - if (messages.info)
+            .message.info
+            span= messages.info
+          
+          div.field(data-role='fieldcontain')
+            fieldset(data-role='controlgroup')
+              span(for='title') Title
+                input(id='title',type='text',value='',placeholder='Sea',name='title')
+          div.field(data-role='fieldcontain')
+            fieldset(data-role='controlgroup')
+              span(for='url') Image url
+                input(id='url',type='url',value='',placeholder='https://google/image.jpg',name='url')
+          div.button(data-role='fieldcontain')   
+            div.button-inner
+              button(type='submit',value='Add item',data-transition='fade', data-theme='c') Add item
+
+  //div#main-container
+    h1= title
+    p Welcome to #{title}
+    - if (messages.info)
+      .message.info
+        span= messages.info
+    div
+        form(action='/items',method='post')
+          div(data-role='fieldcontain')
+            fieldset(data-role='controlgroup')
+              label(for='title') Title
+                input(id='title',type='text',value='',placeholder='Sea',name='title')
+          div#imagediv(data-role='fieldcontain')
+            fieldset(data-role='controlgroup')
+              label(for='url') Image url
+                input(id='url',type='url',value='',placeholder='https://google/image.jpg',name='url')
+          div(data-role='fieldcontain')   
+            input(type='submit',value='Add item',data-transition='fade', data-theme='c')
