@@ -2,63 +2,32 @@ var express = require('express');
 var router = express.Router();
 
 // Custom
-var Item = require("../models/itemModule");
+//var Item = require("../models/itemModule");
+var db;
 
 /* GET items listing. */
 router.get('/', function(req, res, next) {
-  Item.find({}, (err, items) => {
+  db.database.collection('item').find({}).toArray((err, docs) => {
     if(err){
-      console.log("Retrieving from db: " + err);
+      console.log("error: " + err);
+      res.json([]);
     }
     else{
-      console.log(items);
+      console.log(docs);
+      res.json(docs);
     }
   });
-
-  res.json(
-    [
-      {
-        'id':'1',
-        'title':'title1',
-        'photo':'photo1'
-      },
-      {
-        'id':'2',
-        'title':'title2',
-        'photo':'photo2'
-      },
-      {
-        'id':'3',
-        'title':'title3',
-        'photo':'photo3'
-      },
-      {
-        'id':'4',
-        'title':'title4',
-        'photo':'photo4'
-      },
-      {
-        'id':'5',
-        'title':'title5',
-        'photo':'photo5'
-      }
-    ]
-  );
 });
 
 /* POST item. */
 router.post('/', function(req, res) {
   var title = req.body.title;
-  var photo = req.body.photo;
+  var photo = req.body.url;
 
   req.checkBody('title', 'Title is required').notEmpty();
   req.checkBody('url', 'Photo is required').notEmpty();
 
   var errors = req.validationErrors();
-
-  /*console.log(req.body);
-  req.flash('info', 'Item "' + title + '" added.');
-  res.redirect('/');*/
 
   if(errors){
     console.log(req.body);
@@ -66,15 +35,26 @@ router.post('/', function(req, res) {
     res.redirect('/');
   }
   else{
-    let item = new Item({title:title, photo:photo});
-    item.save(function(err){
-        console.log("Error: " + err);
+    db.database.collection('item').save({description:title, photo:photo}, function(err){
+      if(err){
+        console.log("Error in save.");
+        req.flash('info', 'Error adding item.');
+        res.redirect('/');
+      }
+      else{
+        console.log("Saved successfully");
+        console.log(req.body);
+        req.flash('info', 'Item "' + title + '" added.');
+        res.redirect('/');
+      }
     });
-
-    console.log(req.body);
-    req.flash('info', 'Item "' + title + '" added.');
-    res.redirect('/');
   }
 });
 
+function setDatabase(database){
+  console.log("Database ref recieved in api.");
+  db = database;
+}
+
 module.exports = router;
+module.exports.setDatabase = setDatabase;

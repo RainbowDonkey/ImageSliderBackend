@@ -30,6 +30,7 @@ initializeDatabase().then(dbs => {
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
+  app.setDatabase(dbs);
 }).catch(err => {
   console.log('Failed to make database connection!');
   console.log(err);

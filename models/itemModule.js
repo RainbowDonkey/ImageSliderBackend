@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 const itemModel = new Schema({
-    title: { type: String },
-    photo: { type: String }
+    a_title: { type: String },
+    a_photo: { type: String }
 });
 
 //export default mongoose.model('items', itemModel);

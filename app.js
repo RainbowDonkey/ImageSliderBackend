@@ -48,4 +48,13 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// Set db instance
+var db;
+function setDatabase(database){
+  console.log("Passing down database...");
+  //db = database;
+  itemsRouter.setDatabase(database);
+}
+
 module.exports = app;
+module.exports.setDatabase = setDatabase;
